@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-FROM nvcr.io/nvidia/nemo:24.09
+FROM nvcr.io/nvidia/nemo:dev
 WORKDIR /app
 
 RUN pip install git+https://github.com/NVIDIA/dllogger#egg=dllogger
@@ -26,3 +26,4 @@ WORKDIR /app/training
 
 RUN git sparse-checkout set mixture_of_experts_pretraining
 RUN patch --directory=/opt/megatron-lm -p1 < mixture_of_experts_pretraining/docker/gpu/megatron_core.patch
+
