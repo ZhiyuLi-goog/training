@@ -17,11 +17,10 @@ import argparse
 import os
 import pathlib
 import subprocess
-import tempfile
 
 from huggingface_hub import snapshot_download
 
-training_files = [f"en/c4-train.{i:05d}-of-01024.json.gz" for i in range(768, 1024)]
+training_files = [f"en/c4-train.{i:05d}-of-01024.json.gz" for i in range(1024)]
 
 file_mapping_train = [
     (f"c4-train.en_{i}.json.gz", f"c4_train.en_{i}") for i in range(6, 8)
