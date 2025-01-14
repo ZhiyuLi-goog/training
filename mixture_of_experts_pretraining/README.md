@@ -368,7 +368,7 @@ python run_clm.py model.name_or_path=gpt2 eval_frequency=3 n_eval_examples=100 p
 
 # 6. Training Mixtral 8x22B with NeMo on GPU Device
 
-** IMPORTANT ** GPU implementation is a supplementary reference and it is not used for RCP
+**IMPORTANT** GPU implementation is a supplementary reference and it is not used for RCP
 generation. There is convergence gap between GPU and TPU reference and GPU code cannot be used as a
 inplace substitute of TPU code.
 
