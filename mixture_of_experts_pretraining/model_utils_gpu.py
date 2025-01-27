@@ -92,7 +92,7 @@ def setup_model_and_trainer(
     else:
         raise ValueError(f"Unknown model specified: {model_name_or_path}")
 
-    resume = nl.AutoResume(resume_from_path="/app/checkpoints/")
+    resume = None
     tokenizer = AutoTokenizer(pretrained_model_name=tokenizer_name_or_path)
     model = llm.MixtralModel(mixtral_config, tokenizer=tokenizer)
 
