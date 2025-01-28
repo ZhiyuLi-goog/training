@@ -96,6 +96,20 @@ def setup_model_and_trainer(
     tokenizer = AutoTokenizer(pretrained_model_name=tokenizer_name_or_path)
     model = llm.MixtralModel(mixtral_config, tokenizer=tokenizer)
 
+    print("==================================")
+    for name, param in model.named_parameters():
+        if not param.requires_grad:
+            continue
+
+        with torch.no_grad():
+            param_data = param.data.detach().float()
+            mean_val = param_data.mean().item()
+            min_val = param_data.min().item()
+            max_val = param_data.max().item()
+            std_val = param_data.std().item()
+            print(f"{name}, {param_data.shape}, {mean_val:.6f}, {min_val:.6f}, {max_val:.6f}, {std_val:.6f}")
+    print("==================================")
+
     ## initialize the strategy
     strategy = nl.MegatronStrategy(
         tensor_model_parallel_size=tp_size,
