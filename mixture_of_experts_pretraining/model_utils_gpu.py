@@ -96,7 +96,7 @@ def setup_model_and_trainer(
     tokenizer = AutoTokenizer(pretrained_model_name=tokenizer_name_or_path)
     model = llm.MixtralModel(mixtral_config, tokenizer=tokenizer)
 
-    print("==================================")
+    logging.info("==================================")
     for name, param in model.named_parameters():
         if not param.requires_grad:
             continue
@@ -107,8 +107,8 @@ def setup_model_and_trainer(
             min_val = param_data.min().item()
             max_val = param_data.max().item()
             std_val = param_data.std().item()
-            print(f"{name}, {param_data.shape}, {mean_val:.6f}, {min_val:.6f}, {max_val:.6f}, {std_val:.6f}")
-    print("==================================")
+            logging.info(f"{name}, {param_data.shape}, {mean_val:.6f}, {min_val:.6f}, {max_val:.6f}, {std_val:.6f}")
+    logging.info("==================================")
 
     ## initialize the strategy
     strategy = nl.MegatronStrategy(
