@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-FROM nvcr.io/nvidia/pytorch:24.09-py3
+FROM nvcr.io/nvidia/nemo:24.09
 WORKDIR /app
 
 ARG NEMO_REVISION=7f3da35e1
@@ -44,7 +44,7 @@ RUN pip install datasets==2.20.0 hydra-core sentencepiece
 RUN pip install "git+https://github.com/mlperf/logging.git"
 
 # TODO change to mlcommon git
-RUN git clone  -b lizhiyu/moe --filter=blob:none --sparse https://github.com/ZhiyuLi-goog/training.git training
+RUN git clone  -b justinpan/lukaszp/moe --filter=blob:none --sparse https://github.com/ZhiyuLi-goog/training.git training
 
 WORKDIR /app/training
 
