@@ -47,7 +47,7 @@ def setup_distributed(config):
     master_port = os.getenv("MASTER_PORT", "6000")
     import datetime
 
-    DEFAULT_TIMEOUT = datetime.timedelta(minutes=60)
+    DEFAULT_TIMEOUT = datetime.timedelta(minutes=120)
     init_method += master_ip + ":" + master_port
     torch.distributed.init_process_group(
         backend="nccl",
@@ -112,7 +112,7 @@ def setup_model_and_trainer(
         params_dtype=torch.bfloat16,
         pipeline_dtype=torch.bfloat16,
         autocast_enabled=False,
-        grad_reduce_in_fp32=True,
+        grad_reduce_in_fp32=False,
     )
 
     ## setup the optimizer
@@ -124,6 +124,7 @@ def setup_model_and_trainer(
         fp16=False,
         params_dtype=torch.bfloat16,
         clip_grad=max_grad_norm,
+        use_distributed_optimizer=True,
     )
 
     if scheduler.name == "CosineAnnealing":
@@ -162,6 +163,7 @@ def setup_model_and_trainer(
         enable_progress_bar=False,
         val_check_interval=eval_frequency,
         log_every_n_steps=log_frequency,
+        enable_checkpointing=True,
     )
 
     logger.set_trainer(trainer)

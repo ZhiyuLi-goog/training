@@ -29,6 +29,8 @@ from mlperf_logging_utils import (
 )
 from omegaconf import DictConfig, OmegaConf
 from transformers import AutoTokenizer, default_data_collator, logging, set_seed
+from pytorch_lightning.callbacks import LearningRateMonitor
+from pytorch_lightning.callbacks import ModelCheckpoint
 
 USE_CUDA = torch.cuda.is_available()  # os.environ.get('USE_CUDA', False)
 
@@ -179,6 +181,13 @@ def main(config: DictConfig):
                     moe_expert_capacity_factor=config.model.capacity_factor
                 )
             )
+
+        callbacks.append(LearningRateMonitor(logging_interval='step'))
+        callbacks.append(ModelCheckpoint(
+            every_n_train_steps=6,
+            dirpath='/cache/dataset/ckpt/',
+            filename='mixtral_8x22b-c4-{step:02d}'
+        ))
 
         number_of_nodes = max(
             1, torch.distributed.get_world_size() // torch.cuda.device_count()
