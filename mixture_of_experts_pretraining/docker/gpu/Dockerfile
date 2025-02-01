@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-FROM nvcr.io/nvidia/pytorch:24.09-py3
+FROM nvcr.io/nvidia/nemo:24.09
 WORKDIR /app
 
 ARG NEMO_REVISION=7f3da35e1

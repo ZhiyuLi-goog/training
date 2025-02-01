@@ -369,6 +369,19 @@ class MetricsLogger(Logger):
                 sync=False,
             )
 
+        lr_key = None
+        for key in metrics:
+            if lr_key is None and ("lr" in key or "learning" in key):
+                lr_key = key
+            key_string += str(key) + ","
+        self.mllogger.event(
+            constants.LARS_OPT_BASE_LEARNING_RATE,
+            value=metrics[lr_key],
+            metadata={
+                "keys": key_string,
+            },
+        )
+
     @rank_zero_only
     def log_hyperparams(self, params, *args, **kwargs):
         self.mllogger.event(key=constants.CACHE_CLEAR, value=True)
