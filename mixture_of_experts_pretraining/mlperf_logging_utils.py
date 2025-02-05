@@ -352,6 +352,22 @@ class MetricsLogger(Logger):
                 },
             )
 
+            self.mllogger.event(
+                "learning_rate",
+                value=metrics["lr"],
+                metadata={
+                    "global_step": metrics["global_step"],
+                },
+            )
+
+            self.mllogger.event(
+                "grad_norm",
+                value=metrics["grad_norm"],
+                metadata={
+                    "global_step": metrics["global_step"],
+                },
+            )
+
         if "val_loss" in metrics:
             val_loss = metrics["val_loss"]
             self.mllogger.event(
@@ -368,19 +384,6 @@ class MetricsLogger(Logger):
                 },
                 sync=False,
             )
-
-        lr_key = None
-        for key in metrics:
-            if lr_key is None and ("lr" in key or "learning" in key):
-                lr_key = key
-            key_string += str(key) + ","
-        self.mllogger.event(
-            constants.LARS_OPT_BASE_LEARNING_RATE,
-            value=metrics[lr_key],
-            metadata={
-                "keys": key_string,
-            },
-        )
 
     @rank_zero_only
     def log_hyperparams(self, params, *args, **kwargs):
